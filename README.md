@@ -1,2 +1,5 @@
 # mmall
-mmall_learning
+mmall_learning 
+
+
+>language is information,information is everything
