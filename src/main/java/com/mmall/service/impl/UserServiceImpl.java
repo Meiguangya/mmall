@@ -1,5 +1,6 @@
 package com.mmall.service.impl;
 
+import com.mmall.common.Const;
 import com.mmall.common.ServerResponse;
 import com.mmall.dao.UserMapper;
 import com.mmall.pojo.User;
@@ -31,5 +32,23 @@ public class UserServiceImpl implements IUserService {
         user.setPassword(StringUtils.EMPTY);
         return ServerResponse.createBySuccessMsgAndData("登录成功",user);
     }
+
+    @Override
+    public ServerResponse<User> register(User user){
+        return null;
+    }
+
+
+    public ServerResponse<User> checkValid(String str,String type){
+        return null;
+    }
+
+    public ServerResponse isAdmin(User user){
+        if(user!=null &&user.getRole()== Const.Role.ROLE_ADMIN){
+            return ServerResponse.createBySuccess();
+        }
+        return ServerResponse.createByError();
+    }
+
 
 }

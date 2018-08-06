@@ -2,7 +2,8 @@ package com.mmall.common;
 
 public enum ResponseCode {
     SUCCESS(1,"SUCCESS"),
-    ERROR(0,"ERROR");
+    ERROR(0,"ERROR"),
+    NEED_LOGIN(10,"需要登录");
 
     private final int code;
     private final String desc;

@@ -11,4 +11,8 @@ import org.springframework.stereotype.Service;
 public interface IUserService {
 
     public ServerResponse<User> login(String username,String password);
+
+    public ServerResponse<User> register(User user);
+
+    public ServerResponse isAdmin(User user);
 }

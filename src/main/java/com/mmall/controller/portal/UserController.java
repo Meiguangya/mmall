@@ -1,5 +1,6 @@
 package com.mmall.controller.portal;
 
+import com.mmall.common.Const;
 import com.mmall.common.ServerResponse;
 import com.mmall.pojo.User;
 import com.mmall.service.IUserService;
@@ -26,8 +27,23 @@ public class UserController {
     public ServerResponse login(String username, String password, HttpSession session){
         ServerResponse response = userService.login(username,password);
         if(response.isSuccess()) {
-            session.setAttribute("CURRENT_USER", response.getData());
+            session.setAttribute(Const.CURRENT_USER, response.getData());
         }
         return response;
     }
+
+    @RequestMapping(value = "/logout.do",method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse<String> logout(HttpSession session){
+        session.removeAttribute(Const.CURRENT_USER);
+        return ServerResponse.createBySuccessMsg("登出成功");
+    }
+
+    @RequestMapping(value = "/register.do",method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse<User> register(User user){
+        return userService.register(user);
+    }
+
+
 }
