@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
@@ -51,6 +52,37 @@ public class ProductManagerController {
             return ServerResponse.createByErrorMsg("用户不是管理员");
         }
     }
+
+    @RequestMapping(value = "detail.do", method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse getDetail(HttpSession session, Integer productId) {
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user == null) {
+            return ServerResponse.createByErrorMsg("用户未登录");
+        }
+        if (userService.isAdmin(user).isSuccess()) {
+            return productService.manageProductDetail(productId);
+        } else {
+            return ServerResponse.createByErrorMsg("用户不是管理员");
+        }
+    }
+
+    @RequestMapping(value = "list.do", method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse getList(HttpSession session, @RequestParam(value = "pageNum",defaultValue = "1") int pageNum,
+                                  @RequestParam(value = "pageSize",defaultValue = "10") int pageSize) {
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user == null) {
+            return ServerResponse.createByErrorMsg("用户未登录");
+        }
+        if (userService.isAdmin(user).isSuccess()) {
+            return productService.getProductList(pageNum,pageSize);
+        } else {
+            return ServerResponse.createByErrorMsg("用户不是管理员");
+        }
+    }
+
+
 
 
 }
