@@ -33,12 +33,12 @@ public class CategoryManagerController {
      * 添加分类
      * @param session
      * @param categoryName
-     * @param parentedId
+     * @param parentId
      * @return
      */
     @RequestMapping(value = "add_category.do",method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse addCategory(HttpSession session,String categoryName,@RequestParam(value = "parentId",defaultValue = "0") Integer parentedId){
+    public ServerResponse addCategory(HttpSession session,String categoryName,@RequestParam(value = "parentId",defaultValue = "0") Integer parentId){
         User user = (User)session.getAttribute(Const.CURRENT_USER);
 
         if(user == null){
@@ -46,7 +46,7 @@ public class CategoryManagerController {
         }
         ServerResponse response = userService.isAdmin(user);
         if(response.isSuccess()){
-            return categoryService.addCategory(categoryName,parentedId);
+            return categoryService.addCategory(categoryName,parentId);
         }else{
             return ServerResponse.createByErrorMsg("不是管理员,没有权限");
         }

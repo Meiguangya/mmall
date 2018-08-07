@@ -24,15 +24,15 @@ public class CategoryServiceImpl implements ICategoryService {
 
     private org.slf4j.Logger logger = LoggerFactory.getLogger(CategoryServiceImpl.class);
 
-    public ServerResponse<Category> addCategory(String categoryName, Integer parentedId) {
-        if (parentedId == null || StringUtils.isBlank(categoryName)) {
+    public ServerResponse<Category> addCategory(String categoryName, Integer parentId) {
+        if (parentId == null || StringUtils.isBlank(categoryName)) {
             return ServerResponse.createByErrorMsg("添加分类参数错误");
         }
 
         Category category = new Category();
 
         category.setName(categoryName);
-        category.setParentId(parentedId);
+        category.setParentId(parentId);
         category.setStatus(true);
 
         int result = categoryMapper.insert(category);
