@@ -74,7 +74,7 @@ public class ProductServiceImpl implements IProductService {
         if (product == null) {
             return ServerResponse.createByErrorMsg("产品不存在或已经被删除");
         }
-        ProductDetailVo productDetailVo =  assembleProductDetailVo(product);
+        ProductDetailVo productDetailVo = assembleProductDetailVo(product);
         return ServerResponse.createBySuccessData(productDetailVo);
     }
 
@@ -105,13 +105,13 @@ public class ProductServiceImpl implements IProductService {
         return productDetailVo;
     }
 
-    public ServerResponse<PageInfo> getProductList(int pageNum,int pageSize){
+    public ServerResponse<PageInfo> getProductList(int pageNum, int pageSize) {
         //1.start
-        PageHelper.startPage(pageNum,pageSize);
+        PageHelper.startPage(pageNum, pageSize);
         //2.sql
         List<Product> productList = productMapper.selectList();
         List<ProductListVo> productListVoList = Lists.newArrayList();
-        for(Product product : productList){
+        for (Product product : productList) {
             productListVoList.add(assembleProductListVo(product));
         }
         //pageHelper
@@ -120,7 +120,7 @@ public class ProductServiceImpl implements IProductService {
         return ServerResponse.createBySuccessData(pageResult);
     }
 
-    private ProductListVo assembleProductListVo(Product product){
+    private ProductListVo assembleProductListVo(Product product) {
         ProductListVo productListVo = new ProductListVo();
         productListVo.setId(product.getId());
         productListVo.setCategoryId(product.getCategoryId());
@@ -133,4 +133,21 @@ public class ProductServiceImpl implements IProductService {
 
         return productListVo;
     }
+
+    public ServerResponse<PageInfo> searchProductByNameOrId(String productName, Integer productId, int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        if (StringUtils.isBlank(productName)) {
+            productName = new StringBuilder().append("%").append(productName).append("%").toString();
+        }
+        List<Product> productList = productMapper.selectByNameOrId(productName, productId);
+        List<ProductListVo> productListVoList = Lists.newArrayList();
+        for (Product product : productList) {
+            productListVoList.add(assembleProductListVo(product));
+        }
+        //pageHelper
+        PageInfo pageResult = new PageInfo(productList);
+        pageResult.setList(productListVoList);
+        return ServerResponse.createBySuccessData(pageResult);
+    }
+
 }

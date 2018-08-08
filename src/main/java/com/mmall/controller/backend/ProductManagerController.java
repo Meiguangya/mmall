@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.util.Random;
 
 @Controller
 @RequestMapping(value = "/manage/product")
@@ -69,20 +70,33 @@ public class ProductManagerController {
 
     @RequestMapping(value = "list.do", method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse getList(HttpSession session, @RequestParam(value = "pageNum",defaultValue = "1") int pageNum,
-                                  @RequestParam(value = "pageSize",defaultValue = "10") int pageSize) {
+    public ServerResponse getList(HttpSession session, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+                                  @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
             return ServerResponse.createByErrorMsg("用户未登录");
         }
         if (userService.isAdmin(user).isSuccess()) {
-            return productService.getProductList(pageNum,pageSize);
+            return productService.getProductList(pageNum, pageSize);
         } else {
             return ServerResponse.createByErrorMsg("用户不是管理员");
         }
     }
 
-
+    @RequestMapping(value = "search.do", method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse getList(HttpSession session, String productName, Integer productId, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+                                  @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user == null) {
+            return ServerResponse.createByErrorMsg("用户未登录");
+        }
+        if (userService.isAdmin(user).isSuccess()) {
+            return productService.searchProductByNameOrId(productName, productId, pageNum, pageSize);
+        } else {
+            return ServerResponse.createByErrorMsg("用户不是管理员");
+        }
+    }
 
 
 }
