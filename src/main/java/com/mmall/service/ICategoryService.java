@@ -3,6 +3,8 @@ package com.mmall.service;
 import com.mmall.common.ServerResponse;
 import com.mmall.pojo.Category;
 
+import java.util.List;
+
 public interface ICategoryService {
 
     public ServerResponse<Category> addCategory(String categoryName, Integer parentedId);
@@ -21,5 +23,5 @@ public interface ICategoryService {
      * @param categoryId
      * @return
      */
-    public ServerResponse getCategoryAndChildrenById(Integer categoryId);
+    public ServerResponse<List<Integer>> getCategoryAndChildrenById(Integer categoryId);
 }
