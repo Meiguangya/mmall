@@ -1,7 +1,7 @@
 package com.mmall.controller.portal;
 
-import com.mmall.common.Const;
 import com.mmall.common.ServerResponse;
+import com.mmall.common.Const;
 import com.mmall.pojo.User;
 import com.mmall.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;

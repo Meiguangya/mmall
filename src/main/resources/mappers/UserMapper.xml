@@ -153,7 +153,8 @@
   </update>
 
   <select id="selectByLogin" parameterType="map" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List" /> from mmall_user
+    select <include refid="Base_Column_List" />
+    from mmall_user
     where username = #{username} and password = #{password}
   </select>
 </mapper>
